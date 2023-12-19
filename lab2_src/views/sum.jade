@@ -1,0 +1,70 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title 计算两数之和
+  body
+    h1 计算两数之和
+
+    label(for="num1") 第一个数:
+    input(type="text", id="num1", placeholder="输入第一个数")
+
+    label(for="num2") 第二个数:
+    input(type="text", id="num2", placeholder="输入第二个数")
+
+    button(onclick="calculateSum()") 计算
+
+    p#result
+
+  script.
+    function calculateSum() {
+    
+        var num1 = Number(document.getElementById('num1').value);
+        var num2 = Number(document.getElementById('num2').value);
+        
+      // 检查输入是否有效
+        if (isNaN(num1) || isNaN(num2)) {
+            document.getElementById('result').innerText = '输入无效';
+            return;
+        }
+
+    //-   // POST 请求测试
+    //-   // 构建要发送的数据
+    //-     var postData = {
+    //-         a: num1,
+    //-         b: num2
+    //-     };
+
+    //-   // 发起POST请求到服务器
+    //-     fetch('http://127.0.0.1:3000/api/sum', {
+    //-         method: 'POST',
+    //-         headers: {
+    //-         'Content-Type': 'application/json'
+    //-         },
+    //-         body: JSON.stringify(postData)
+    //-     })
+    //-     .then(response => response.json())
+    //-     .then(data => {
+    //-     // 将计算结果显示在页面上
+    //-     document.getElementById('result').innerText = `两数之和: ${data.sum}`;
+    //-     })
+    //-     .catch(error => {
+    //-     console.error('Error:', error);
+    //-     document.getElementById('result').innerText = 'An error occurred while processing the request.';
+    //-     });
+    
+
+    // GET 请求
+      // 使用你的 API 端点进行计算
+      fetch(`http://127.0.0.1:3000/api/sum?a=${num1}&b=${num2}`)
+        .then(response => response.json())
+        .then(data => {
+          // 将计算结果显示在页面上
+          document.getElementById('result').innerText = `两数之和: ${data.sum}`;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          document.getElementById('result').innerText = '请求服务端时发生错误';
+        });
+    }
